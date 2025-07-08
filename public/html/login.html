@@ -1,0 +1,41 @@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Accesso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="mb-3">
+                        <label for="usernameOrEmail" class="form-label">Nome utente o Email</label>
+                        <input id="usernameOrEmail" type="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" class="form-control">
+                    </div>
+                    <p class="mt-3">Non hai ancora un account? <a href="/register">Registrati qui</a></p>
+                </div>
+                <div class="resultContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="submit" class="btn btn-primary" onclick="login()">Accedi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    if (checkUserLogged()) {
+        window.location.href = "/";
+    }
+    
+    /* Questo codice assegna un gestore di eventi al tasto "Invio" (codice tasto 13) sulla tastiera
+       quando l'utente si trova all'interno dell'elemento input con ID "password."
+       Quando viene premuto il tasto "Invio" (codice tasto 13), viene chiamata la funzione "login()". */
+    document.getElementById('password').onkeydown = function (e) {
+        if (e.keyCode == 13) login();
+    }
+</script>

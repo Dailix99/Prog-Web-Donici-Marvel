@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apertura Pacchetto</title>
+    
+    <!-- Importazione del logo -->
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    
+    <!-- Importazione dei CSS personalizzati -->
+    <link rel="stylesheet" href="../Css/style.css">
+    <link rel="stylesheet" href="../Css/card.css">
+    <link rel="stylesheet" href="../Css/comic-effects.css">
+    <link rel="stylesheet" href="../Css/footer.css">
+</head>
+
+<body>
+    <div id="menu"></div>
+    <div class="marvel-hero-image"></div>
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="comic-text glow">Apri un pacchetto di carte</h1>
+                <div class="speech-bubble">
+                    In questo pacchetto troverai 5 carte, costa 1 credito. <br>
+                    Crediti attuali: 
+                    <span id="current_credits" class="current_credits" style="font-size: 0.9rem; padding: 5px 10px; background: var(--marvel-gold); color: var(--marvel-dark); border: 2px solid var(--marvel-dark); border-radius: 5px; display: inline-block; margin: 0 5px;"></span>
+                    <br> Puoi aprirlo solo se hai selezionato un album.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <div class="button-container text-center">
+                    <button id="cardPack" class="card-pack btn package-button">
+                        <span class="button-text">Scarta il tuo pacchetto!</span>
+                        <span class="button-icon">🎁</span>
+                    </button>
+                    <div id="lock" class="text-center hidden">
+                        <p class="text-danger" id="error_Message"></p>
+                        <i class="fas fa-lock fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div id="pack_cards" class="hidden pack_cards"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cardPack').addEventListener('click', async function() {
+            const button = this;
+            const buttonText = button.querySelector('.button-text');
+            const buttonIcon = button.querySelector('.button-icon');
+            
+            // Imposta lo stato di caricamento
+            button.disabled = true;
+            
+            // Animazione di apertura del pacchetto
+            button.classList.add('package-opening');
+            buttonText.textContent = 'Apertura in corso...';
+            buttonIcon.textContent = '⚡';
+            
+            // Effetto di brillantezza
+            button.style.animation = 'packageGlow 0.5s ease-in-out infinite';
+            
+            await printPackage().then(result => {
+                // Animazione di completamento
+                button.classList.remove('package-opening');
+                button.classList.add('package-opened');
+                buttonText.textContent = 'Pacchetto aperto!';
+                buttonIcon.textContent = '✨';
+                
+                // Nascondi il pulsante dopo un breve delay
+                setTimeout(() => {
+                    button.classList.add("hidden");
+                    document.getElementById('pack_cards').classList.remove('hidden');
+                    printCredits();
+                    button.disabled = false;
+                }, 1500);
+            });
+        });
+    </script>
+
+    <script>
+        async function toggleLock() {
+            const lockDiv = document.getElementById('lock');
+            const cardPackButton = document.getElementById('cardPack');
+            const credits = await get_credits();
+            
+            if (!localStorage.getItem("album_ID") || credits < 1) {
+                lockDiv.classList.add('active');
+                if (!localStorage.getItem("album_ID")) {
+                    document.getElementById("error_Message").textContent = "Seleziona prima un album";
+                } else {
+                    document.getElementById("error_Message").textContent = "Crediti insufficienti";
+                }
+                lockDiv.classList.remove('hidden');
+                cardPackButton.disabled = true;
+            } else {
+                lockDiv.classList.remove('active');
+                lockDiv.classList.add('hidden');
+                cardPackButton.disabled = false;
+            }
+        }
+    </script>
+    
+    <!-- Importazione degli script JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../scripts/marvel.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/login.js"></script>
+    
+    <script>
+        printCredits();
+        toggleLock();
+    </script>
+    
+    <!-- Footer piccolo in stile Marvel -->
+    <div class="simple-marvel-footer">
+        <p class="simple-footer-text">@Donici Iustin Daniel</p>
+    </div>
+</body>
+</html>

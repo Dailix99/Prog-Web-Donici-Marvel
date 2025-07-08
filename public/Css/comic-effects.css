@@ -1,0 +1,861 @@
+/* Effetti stile cartoon */
+
+.comic-panel {
+    position: relative;
+    background: var(--marvel-light);
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    box-shadow: var(--comic-shadow);
+    padding: 20px;
+    margin: 15px 0;
+    transform: rotate(-1deg);
+    transition: all 0.3s ease;
+}
+
+.comic-panel:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 8px 8px 0px #000000, 0 0 20px rgba(230, 36, 41, 0.3);
+}
+
+.comic-panel::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, var(--marvel-red), var(--marvel-blue), var(--marvel-gold));
+    border-radius: calc(var(--comic-radius) + 3px);
+    z-index: -1;
+}
+
+
+.speech-bubble {
+    position: relative;
+    background: var(--marvel-light);
+    border: var(--comic-border);
+    border-radius: 20px;
+    padding: 15px 20px;
+    margin: 10px 0;
+    box-shadow: var(--comic-shadow);
+    font-family: 'Comic Neue', cursive;
+    font-weight: bold;
+}
+
+.comic-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.comic-strip .panel {
+    flex: 1;
+    min-width: 200px;
+    background: var(--marvel-light);
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    padding: 15px;
+    box-shadow: var(--comic-shadow);
+    transform: rotate(0.5deg);
+    transition: all 0.3s ease;
+}
+
+.comic-strip .panel:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 5px 5px 0px #000000;
+}
+
+/* Effetto Pulsante Fumetto */
+.power-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.power-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(240, 179, 35, 0.6), transparent);
+    animation: powerSweep 2s ease-in-out infinite;
+}
+
+@keyframes powerSweep {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* Comic Text Effect */
+.comic-text {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    color: var(--marvel-dark);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.comic-text.glow {
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from { text-shadow: 2px 2px 0px rgba(0,0,0,0.3), 0 0 5px var(--marvel-red); }
+    to { text-shadow: 2px 2px 0px rgba(0,0,0,0.3), 0 0 20px var(--marvel-red), 0 0 30px var(--marvel-red); }
+}
+
+/* Comic Button Effects */
+.btn-comic {
+    position: relative;
+    overflow: hidden;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.btn-comic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-comic:hover::before {
+    left: 100%;
+}
+
+/* Animazione di caricamento stile fumetto */
+.comic-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--marvel-dark);
+    border-radius: 50%;
+    border-top-color: var(--marvel-red);
+    animation: comicSpin 1s ease-in-out infinite;
+}
+
+@keyframes comicSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Stili di avviso fumetto */
+.alert-comic {
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    box-shadow: var(--comic-shadow);
+    font-family: 'Comic Neue', cursive;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.alert-comic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--marvel-red), var(--marvel-blue), var(--marvel-gold));
+}
+
+.alert-comic.success {
+    background: linear-gradient(45deg, #e8f5e8, #c8e6c9);
+    color: #2e7d32;
+}
+
+.alert-comic.danger {
+    background: linear-gradient(45deg, #ffebee, #ffcdd2);
+    color: #c62828;
+}
+
+.alert-comic.warning {
+    background: linear-gradient(45deg, #fff3e0, #ffe0b2);
+    color: #ef6c00;
+}
+
+.alert-comic.info {
+    background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+    color: #1565c0;
+}
+
+/* Stili Modale Fumetto */
+.modal-content {
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    box-shadow: var(--comic-shadow);
+    font-family: 'Comic Neue', cursive;
+}
+
+.modal-header {
+    background: linear-gradient(90deg, var(--marvel-red), var(--marvel-blue));
+    color: var(--marvel-light);
+    border-bottom: var(--comic-border);
+}
+
+.modal-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 0px #000000;
+}
+
+/* Stili Tabella Fumetto */
+.table-comic {
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    overflow: hidden;
+    box-shadow: var(--comic-shadow);
+}
+
+.table-comic th {
+    background: linear-gradient(45deg, var(--marvel-red), var(--marvel-blue));
+    color: var(--marvel-light);
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 0px #000000;
+    border-bottom: var(--comic-border);
+}
+
+.table-comic td {
+    border-bottom: 1px solid #ddd;
+    font-family: 'Comic Neue', cursive;
+}
+
+.table-comic tr:hover {
+    background: linear-gradient(45deg, rgba(230, 36, 41, 0.1), rgba(81, 140, 202, 0.1));
+}
+
+/* Stili Form Fumetto */
+.form-comic .form-control {
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    font-family: 'Comic Neue', cursive;
+    box-shadow: 2px 2px 0px #000000;
+    transition: all 0.3s ease;
+}
+
+.form-comic .form-control:focus {
+    border-color: var(--marvel-blue);
+    box-shadow: 0 0 0 0.2rem rgba(81, 140, 202, 0.25), 3px 3px 0px #000000;
+    transform: translateY(-2px);
+}
+
+.form-comic .form-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    color: var(--marvel-dark);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+
+/* Stili Dropdown Fumetto */
+.dropdown-menu-comic {
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    box-shadow: var(--comic-shadow);
+    background: var(--marvel-light);
+    font-family: 'Comic Neue', cursive;
+}
+
+.dropdown-item-comic {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item-comic:hover {
+    background: linear-gradient(45deg, var(--marvel-blue), var(--marvel-red));
+    color: var(--marvel-light);
+    transform: translateX(5px);
+}
+
+/* Barra di progresso Fumetto */
+.progress-comic {
+    height: 25px;
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    background: var(--marvel-light);
+    overflow: hidden;
+    box-shadow: var(--comic-shadow);
+}
+
+.progress-bar-comic {
+    background: linear-gradient(45deg, var(--marvel-red), var(--marvel-blue), var(--marvel-gold));
+    border-radius: calc(var(--comic-radius) - 3px);
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-comic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* Badge Fumetto */
+.badge-comic {
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    box-shadow: var(--comic-shadow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge-comic.primary {
+    background: var(--marvel-blue);
+    color: var(--marvel-light);
+}
+
+.badge-comic.success {
+    background: var(--marvel-gold);
+    color: var(--marvel-dark);
+}
+
+.badge-comic.danger {
+    background: var(--marvel-red);
+    color: var(--marvel-light);
+}
+
+/* Spinner Fumetto */
+.spinner-comic {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--marvel-dark);
+    border-top: 4px solid var(--marvel-red);
+    border-radius: 50%;
+    animation: comicSpin 1s linear infinite;
+}
+
+/* Tooltip Fumetto */
+.tooltip-comic {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-comic .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background: var(--marvel-light);
+    color: var(--marvel-dark);
+    text-align: center;
+    border: var(--comic-border);
+    border-radius: var(--comic-radius);
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    box-shadow: var(--comic-shadow);
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+}
+
+.tooltip-comic .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--marvel-dark) transparent transparent transparent;
+}
+
+.tooltip-comic:hover .tooltiptext {
+    visibility: visible;
+}
+
+/* Stili Form Eroe - Design moderno da supereroe */
+.hero-form-container {
+    background: linear-gradient(135deg, rgba(230, 36, 41, 0.1) 0%, rgba(81, 140, 202, 0.1) 100%);
+    border: 3px solid var(--marvel-red);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.hero-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: heroShine 3s ease-in-out infinite;
+}
+
+@keyframes heroShine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+.hero-form-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--marvel-red), var(--marvel-blue), var(--marvel-gold));
+}
+
+.hero-form {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-input-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 15px 20px;
+    border: 3px solid var(--marvel-dark);
+    border-radius: 15px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--marvel-light) 0%, #f8f9fa 100%);
+    color: var(--marvel-dark);
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.hero-input:focus {
+    border-color: var(--marvel-blue);
+    box-shadow: 0 0 20px rgba(81, 140, 202, 0.5), 5px 5px 0px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+.hero-input::placeholder {
+    color: rgba(21, 21, 21, 0.6);
+    font-style: italic;
+}
+
+.hero-button {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, var(--marvel-red) 0%, #c41e3a 100%);
+    border: 3px solid var(--marvel-dark);
+    border-radius: 15px;
+    color: var(--marvel-light);
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(230, 36, 41, 0.6);
+    background: linear-gradient(135deg, #c41e3a 0%, var(--marvel-red) 100%);
+}
+
+.hero-button:active {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+.hero-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.hero-button:hover::before {
+    left: 100%;
+}
+
+.hero-button i {
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsive design per il form */
+@media (max-width: 768px) {
+    .hero-input-group {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .hero-input {
+        min-width: 100%;
+        width: 100%;
+    }
+    
+    .hero-button {
+        width: 100%;
+        padding: 18px 30px;
+    }
+    
+    .hero-form-container {
+        padding: 20px;
+        margin: 15px 0;
+    }
+}
+
+/* Animazioni Pulsante Pacchetto - Animazioni per il pulsante pacchetto */
+.package-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    background: linear-gradient(135deg, var(--marvel-red) 0%, #c41e3a 50%, var(--marvel-gold) 100%);
+    background-size: 200% 200%;
+    animation: packageGradient 3s ease-in-out infinite;
+}
+
+.package-button:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(230, 36, 41, 0.6), 0 0 30px rgba(240, 179, 35, 0.4);
+    background-position: right center;
+}
+
+.package-button .button-text {
+    font-family: 'Bangers', cursive;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.package-button .button-icon {
+    font-size: 1.8rem;
+    margin-left: 10px;
+    display: inline-block;
+    animation: packageBounce 2s ease-in-out infinite;
+}
+
+@keyframes packageGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes packageBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes packageGlow {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(230, 36, 41, 0.8), 0 0 40px rgba(240, 179, 35, 0.6);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(230, 36, 41, 1), 0 0 80px rgba(240, 179, 35, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+/* Animazione di apertura del pacchetto */
+.package-opening {
+    animation: packageOpening 0.5s ease-in-out infinite !important;
+    background: linear-gradient(135deg, var(--marvel-gold) 0%, var(--marvel-red) 50%, var(--marvel-blue) 100%) !important;
+    background-size: 200% 200% !important;
+    animation: packageOpening 0.5s ease-in-out infinite, packageGradient 0.5s ease-in-out infinite !important;
+}
+
+@keyframes packageOpening {
+    0%, 100% { 
+        transform: rotate(0deg) scale(1);
+        box-shadow: 0 0 30px rgba(240, 179, 35, 0.8);
+    }
+    25% { 
+        transform: rotate(-2deg) scale(1.1);
+        box-shadow: 0 0 40px rgba(230, 36, 41, 0.9);
+    }
+    50% { 
+        transform: rotate(2deg) scale(1.15);
+        box-shadow: 0 0 50px rgba(81, 140, 202, 1);
+    }
+    75% { 
+        transform: rotate(-1deg) scale(1.1);
+        box-shadow: 0 0 40px rgba(240, 179, 35, 0.9);
+    }
+}
+
+/* Animazione di completamento */
+.package-opened {
+    animation: packageOpened 1.5s ease-in-out !important;
+    background: linear-gradient(135deg, var(--marvel-gold) 0%, #ffd700 50%, var(--marvel-gold) 100%) !important;
+    box-shadow: 0 0 60px rgba(240, 179, 35, 1) !important;
+}
+
+@keyframes packageOpened {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% { 
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+
+.package-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.package-button:hover::before {
+    opacity: 1;
+    animation: particleFloat 2s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* Responsive per il pulsante pacchetto */
+@media (max-width: 768px) {
+    .package-button .button-text {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+    
+    .package-button .button-icon {
+        font-size: 1.4rem;
+        margin-left: 8px;
+    }
+    
+    .package-button {
+        padding: 15px 25px;
+    }
+}
+
+/* Stili Ricerca Semplice - Form semplice e funzionale */
+.simple-search-container {
+    background: linear-gradient(135deg, rgba(230, 36, 41, 0.1) 0%, rgba(81, 140, 202, 0.1) 100%);
+    border: 3px solid var(--marvel-red);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input-container {
+    margin-bottom: 15px;
+}
+
+.simple-search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--marvel-dark);
+    border-radius: 10px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--marvel-dark);
+    background: var(--marvel-light);
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.simple-search-input:focus {
+    border-color: var(--marvel-blue);
+    box-shadow: 0 0 15px rgba(81, 140, 202, 0.5), 3px 3px 0px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.simple-search-input::placeholder {
+    color: rgba(21, 21, 21, 0.6);
+    font-style: italic;
+}
+
+/* Contenitore Risultati - Spazio dedicato per i risultati */
+.results-container {
+    min-height: 50px;
+    background: var(--marvel-light);
+    border: 2px solid var(--marvel-dark);
+    border-radius: 10px;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: none;
+}
+
+.results-container.show {
+    display: block;
+    animation: resultsSlide 0.3s ease-out;
+}
+
+@keyframes resultsSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--marvel-red);
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.search-results li {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(230, 36, 41, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    color: var(--marvel-dark);
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+}
+
+.search-results li:hover {
+    background: linear-gradient(45deg, var(--marvel-red), var(--marvel-blue));
+    color: var(--marvel-light);
+    transform: translateX(5px);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+}
+
+.search-results li:last-child {
+    border-bottom: none;
+}
+
+/* Contenitore Caricamento */
+.loading-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(230, 36, 41, 0.3);
+    border-top: 3px solid var(--marvel-red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem;
+    color: var(--marvel-red);
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .simple-search-container {
+        padding: 15px;
+        margin: 15px 0;
+        max-width: 350px;
+    }
+    
+    .simple-search-input {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
+    
+         .search-results li {
+         font-size: 0.8rem;
+         padding: 8px 12px;
+     }
+ } 

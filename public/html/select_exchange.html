@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scambio Carte</title>
+    
+    <!-- Importazione del logo -->
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    
+    <!-- Importazione dei CSS personalizzati -->
+    <link rel="stylesheet" href="../Css/style.css">
+    <link rel="stylesheet" href="../Css/card.css">
+    <link rel="stylesheet" href="../Css/comic-effects.css">
+    <link rel="stylesheet" href="../Css/footer.css">
+</head>
+
+<body>
+    <div id="menu"></div>
+    <div class="marvel-hero-image"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-4">
+                    <h1 class="comic-text glow"></h1>
+                </div>
+                
+                <div class="speech-bubble text-center mb-4">
+                    <p>Scambia le tue carte duplicate con quelle che ti servono!</p>
+                    <p>Ogni carta vale <strong>0.2 crediti</strong> - vendi i duplicati per guadagnare di più.</p>
+                    <p><strong>Attenzione:</strong> Vendere una carta eliminerà qualsiasi scambio che la utilizza.</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap mt-3">
+                        <a href="/sell_cards" class="btn btn-success btn-comic">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Vendi Carte</span>
+                        </a>
+                        <a href="/create_exchange" class="btn btn-success btn-comic">
+                            <i class="fas fa-plus"></i>
+                            <span>Crea Scambio</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div id="lock" class="text-center hidden">
+                    <p class="text-danger" id="error_Message"></p>
+                    <i class="fas fa-lock fa-2x"></i>
+                </div>
+                
+                <div id="second_lock" class="text-center hidden">
+                    <p class="text-danger" id="second_error_Message"></p>
+                    <i class="fas fa-lock fa-2x"></i>
+                </div>
+                
+                <div id="report_container">
+                    <div class="mb-4">
+                        <h2 class="comic-text text-center"></h2>
+                        <div id="pack_cards" class="pack_cards"></div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h2 class="comic-text text-center">controlla qui gli scambi che hai proposto</h2>
+                        <div id="my_exchanges" class="pack_cards"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center hidden" id="recieveCard">
+            <div class="col-md-8 col-lg-6">
+                <div class="speech-bubble">
+                    <div class="text-center mb-3">
+                        <h3 class="comic-text">Seleziona Obiettivo</h3>
+                        <p>Scegli la carta che vuoi ottenere</p>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" 
+                               class="form-control" 
+                               id="select_superhero" 
+                               placeholder="Supereroe richiesto"
+                               autocomplete="off"
+                               required="required">
+                        <label for="select_superhero">Supereroe Richiesto</label>
+                        <div class="dropdown-menu w-100" id="resultsDropdown">
+                            <ul class="search-results" id="searchResults">
+                                <!-- I risultati verranno popolati qui -->
+                            </ul>
+                            <div class="text-center p-2 d-none" id="loadingIndicator">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Caricamento...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected_Superhero">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function toggleLock() {
+            const lockDiv = document.getElementById('lock');
+            const reportContainer = document.getElementById('report_container');
+            const credits = await get_credits();
+            
+            if (!localStorage.getItem("album_ID") || credits < 1) {
+                lockDiv.classList.add('active');
+                if (!localStorage.getItem("album_ID")) {
+                    document.getElementById("error_Message").textContent = "Seleziona prima un album";
+                } else {
+                    document.getElementById("error_Message").textContent = "Crediti insufficienti";
+                }
+                lockDiv.classList.remove('hidden');
+                reportContainer.classList.add('hidden');
+                lockDiv.style.position = 'absolute';
+                lockDiv.style.width = '100%';
+                lockDiv.style.height = '100%';
+                lockDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                lockDiv.style.zIndex = '1000';
+            } else {
+                lockDiv.classList.remove('active');
+                lockDiv.classList.add('hidden');
+                reportContainer.classList.remove('hidden');
+            }
+        }
+    </script>
+    
+    <!-- Importazione degli script JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../scripts/marvel.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    
+    <script type="module">
+        async function getHeroName(heroId) {
+            try {
+                const response = await fetch(`/character/${heroId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.data[0].name;
+                }
+                return heroId;
+            } catch (error) {
+                console.error("Errore nel recupero del nome dell'eroe:", error);
+                return heroId;
+            }
+        }
+
+        var user_Id = localStorage.getItem("_id");
+        var album_ID = localStorage.getItem("album_ID");
+        
+        try {
+            const response = await fetch('/check_exchanges', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userid: user_Id,
+                    albumid: album_ID
+                })
+            });
+            const userData = await response.json();
+            if (!userData || !userData.exchanges) {
+                throw new Error("Formato risposta non valido");
+            }
+            if (!response.ok) {
+                throw new Error("Autenticazione non valida");
+            }
+            if (response.status === 204) {
+                const userData = [];
+            }
+            if (userData.exchanges.length > 0) {
+                const exchangesTable = document.createElement('table');
+                exchangesTable.className = 'table table-striped table-hover';
+                exchangesTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th class="text-center">Carta da Dare</th>
+                            <th class="text-center">Carta/e da Ricevere</th>
+                            <th class="text-center">Azione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                userData.exchanges.forEach(async (exchange) => {
+                    const requestedHeroName = await getHeroName(exchange.requestedCard);
+                    const proposedHeroNames = await Promise.all(
+                        exchange.proposedCards.map(cardId => getHeroName(cardId))
+                    );
+                    exchangesTable.querySelector('tbody').innerHTML += `
+                        <tr>
+                            <td class="text-center">${requestedHeroName}</td>
+                            <td class="text-center">${proposedHeroNames.join(', ')}</td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-comic" onclick="acceptExchange('${exchange.exchange_ID}')">
+                                    Accetta Scambio
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('pack_cards').appendChild(exchangesTable);
+            }
+        } catch (error) {
+            console.error("Errore!", error);
+        }
+
+        try {
+            const response = await fetch('/check_my_exchanges', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userid: user_Id,
+                    albumid: album_ID
+                })
+            });
+            const userData = await response.json();
+            if (!userData || !userData.exchanges) {
+                throw new Error("Formato risposta non valido");
+            }
+            if (!response.ok) {
+                throw new Error("Autenticazione non valida");
+            }
+            if (response.status === 204) {
+                const userData = [];
+            }
+            if (userData.exchanges.length > 0) {
+                const exchangesTable = document.createElement('table');
+                exchangesTable.className = 'table table-striped table-hover';
+                exchangesTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th class="text-center">Carta da Ricevere</th>
+                            <th class="text-center">Carta/e da Dare</th>
+                            <th class="text-center">Azione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                userData.exchanges.forEach(async (exchange) => {
+                    const requestedHeroName = await getHeroName(exchange.requestedCard);
+                    const proposedHeroNames = await Promise.all(
+                        exchange.proposedCards.map(cardId => getHeroName(cardId))
+                    );
+                    exchangesTable.querySelector('tbody').innerHTML += `
+                        <tr>
+                            <td class="text-center">${requestedHeroName}</td>
+                            <td class="text-center">${proposedHeroNames.join(', ')}</td>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-comic" onclick="deleteExchange('${exchange.exchange_ID}')">
+                                    <i class="fas fa-trash"></i> Elimina Scambio
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('my_exchanges').appendChild(exchangesTable);
+            }
+        } catch (error) {
+            console.error("Errore!", error);
+        }
+    </script>
+
+    <script>
+        printCredits();
+        toggleLock();
+        var albumid = localStorage.getItem("album_ID");
+    </script>
+    
+    <!-- Footer piccolo in stile Marvel -->
+    <div class="simple-marvel-footer">
+        <p class="simple-footer-text">@Donici Iustin Daniel</p>
+    </div>
+</body>
+</html>

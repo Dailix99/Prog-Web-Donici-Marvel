@@ -1,0 +1,765 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Marvel Universe: Donici",
+    "description": "Test degli endpoint Marvel Universe",
+    "version": "1.0.0"
+  },
+  "host": "localhost:999",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "fetch",
+      "description": "Endpoint di base."
+    },
+    {
+      "name": "users",
+      "description": "Endpoint per la gestione dei dati utente e delle operazioni correlate."
+    },
+    {
+      "name": "auth",
+      "description": "Endpoint relativi all'autenticazione e autorizzazione dell'utente."
+    },
+    {
+      "name": "cards",
+      "description": "Endpoint per la gestione delle carte dell'album."
+    },
+    {
+      "name": "exchanges",
+      "description": "Endpoint per gestire gli scambi."
+    },
+    {
+      "name": "database",
+      "description": "Endpoint per verificare la connessione al database."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "fetch"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina index.html",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/package": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per ottenere un pacchetto di personaggi",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/card": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina dettaglio carta",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina gestione utente",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina di login",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "Endpoint che permette di verificare le credenziali dell'utente",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Corpo per validare il login.",
+            "schema": {
+              "$ref": "#/definitions/loginrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dati di login validi",
+            "schema": {
+              "$ref": "#/definitions/loggeduser"
+            }
+          },
+          "400": {
+            "description": "Dati non validi, parametro mancante"
+          },
+          "401": {
+            "description": "Utente non autorizzato"
+          },
+          "500": {
+            "description": "Errore interno"
+          }
+        }
+      }
+    },
+    "/register": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina di registrazione utente",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "Endpoint che permette di registrare un nuovo utente",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Corpo da registrare nel DB.",
+            "schema": {
+              "$ref": "#/definitions/registerrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registrazione avvenuta con successo."
+          },
+          "400": {
+            "description": "Utente già esistente, parametro non valido"
+          },
+          "500": {
+            "description": "Errore generico"
+          }
+        }
+      }
+    },
+    "/album": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina album",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sell_cards": {
+      "get": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina per vendere carte",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/albums/{userid}": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint che permette di ottenere gli album dell'utente",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Errore interno del server"
+          }
+        }
+      }
+    },
+    "/albums_cards/{albumid}": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint che permette di ottenere le carte nell'album",
+        "parameters": [
+          {
+            "name": "albumid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Errore interno del server"
+          }
+        }
+      }
+    },
+    "/albums_duplicated_cards/{albumid}": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint che permette di ottenere le carte duplicate dell'album",
+        "parameters": [
+          {
+            "name": "albumid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Errore interno del server"
+          }
+        }
+      }
+    },
+    "/create_exchange": {
+      "get": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina per creare uno scambio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint per creare uno scambio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/exchange": {
+      "get": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina scambi",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get-credits": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint che permette di ottenere la pagina per acquistare crediti",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/print-credits/{username}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint per ottenere i crediti dell'utente",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/accept_exchange": {
+      "post": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint per accettare uno scambio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/check_card_album": {
+      "post": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per verificare se una carta è presente in un album",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/check_exchanges": {
+      "post": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint per ottenere la lista degli scambi",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/check_my_exchanges": {
+      "post": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint per ottenere la lista dei miei scambi",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/character/{id}": {
+      "get": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per ottenere uno specifico personaggio dalla Marvel API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Errore interno del server"
+          }
+        }
+      }
+    },
+    "/create_album": {
+      "post": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per creare un nuovo album di carte",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/edit-credits": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint per variare i crediti",
+        "parameters": [
+          {
+            "name": "headers",
+            "in": "headers",
+            "description": "Headers contenenti le informazioni sulla variazione dei crediti",
+            "type": "object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "credits": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "operation": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Crediti aggiornati con successo"
+          },
+          "400": {
+            "description": "Parametri non validi o crediti insufficienti"
+          },
+          "500": {
+            "description": "Errore interno del server"
+          }
+        }
+      }
+    },
+    "/check-db": {
+      "post": {
+        "tags": [
+          "database"
+        ],
+        "description": "Endpoint per verificare la connessione al database",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/characters": {
+      "post": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per ottenere personaggi dalla Marvel API con una query personalizzata",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get_user_data": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "Endpoint che permette di verificare se la tupla _id, email e nickname dell'utente sono validi nel database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Tupla usata per la verifica",
+            "schema": {
+              "$ref": "#/definitions/authuser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autorizzazione avvenuta con successo.",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Richiesta non valida"
+          },
+          "401": {
+            "description": "Parametro body non valido"
+          },
+          "500": {
+            "description": "Errore interno"
+          }
+        }
+      }
+    },
+    "/update-user": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint per modificare un utente.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/delete-user/{userid}": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "description": "Endpoint per eliminare un utente",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/delete-exchange/{exchangeid}": {
+      "delete": {
+        "tags": [
+          "exchanges"
+        ],
+        "description": "Endpoint per eliminare uno scambio",
+        "parameters": [
+          {
+            "name": "exchangeid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sell_card/": {
+      "delete": {
+        "tags": [
+          "cards"
+        ],
+        "description": "Endpoint per vendere una carta",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "ObjectId('686ba122e387eb703b5b5e3e')"
+        },
+        "name": {
+          "type": "string",
+          "example": "Iustin"
+        },
+        "username": {
+          "type": "string",
+          "example": "Fragola99"
+        },
+        "surname": {
+          "type": "string",
+          "example": "Donici"
+        },
+        "email": {
+          "type": "string",
+          "example": "donici@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "807fe1d5176e0c7a958500eb58ef7f08"
+        },
+        "date": {
+          "type": "string",
+          "example": "2004-09-09"
+        },
+        "superhero": {
+          "type": "string",
+          "example": "1009652"
+        },
+        "credits": {
+          "type": "string",
+          "example": "75.2"
+        }
+      }
+    },
+    "album": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "ObjectId('686b9cff133bfdd6814f1e02')"
+        },
+        "user_Id": {
+          "type": "string",
+          "example": "ObjectId('686b98fc133bfdd6814f1dfc')"
+        },
+        "name": {
+          "type": "string",
+          "example": "TopiGalattici"
+        }
+      }
+    },
+    "cards": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "ObjectId('686be7e5eefe0f7e839548bb')"
+        },
+        "user_Id": {
+          "type": "string",
+          "example": "ObjectId('686ba122e387eb703b5b5e3e')"
+        },
+        "album_Id": {
+          "type": "string",
+          "example": "ObjectId('686ba16fe387eb703b5b5e3f')"
+        },
+        "card_Id": {
+          "type": "number",
+          "example": 1009610
+        }
+      }
+    },
+    "exchanges": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "ObjectId('686bef0116c4b01ee8851a84')"
+        },
+        "user_Id": {
+          "type": "string",
+          "example": "ObjectId('686ba122e387eb703b5b5e3e')" 
+        },
+        "album_id": {
+          "type": "string",
+          "example": "ObjectId('686ba16fe387eb703b5b5e3f')"
+        },
+        "requestedCard": {
+          "type": "string",
+          "example": "1009718"
+        }
+      }
+    },
+    "exchanges_cards": {      
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "ObjectId('686bef0216c4b01ee8851a85')"
+        },
+        "exchange_id": {
+          "type": "string",
+          "example": "ObjectId('686bef0116c4b01ee8851a84')"         
+        },
+        "card_Id": {
+          "type": "number",
+          "example": 1010366
+        },
+        "user_Id": {
+          "type": "string",
+          "example": "ObjectId('686ba122e387eb703b5b5e3e')"
+        },
+        "album_id": {           
+          "type": "string",
+          "example": "ObjectId('686ba16fe387eb703b5b5e3f')"
+        }
+      }
+    }
+  }
+}
+
+
+
+

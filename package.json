@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "start": "node app.js ",
+    "test": "echo \"ERROR: no test specified\" && exit 1",
+    "swagger": "node ./lib/api/docs/swagger.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dailix99/Prog-Web-Donici-Marvel"
+  },
+  "author": "Donici Iustin Daniel",
+  "dependencies": {
+    "decimal.js": "^10.5.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "mongodb": "^6.12.0",
+    "swagger-ui-express": "^4.6.3"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.5"
+  },
+  "name": "marvel",
+  "description": "progetto per la gestione di figurine Marvel",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  }
+ 
+}

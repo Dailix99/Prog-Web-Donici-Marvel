@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea Scambio</title>
+    
+    <!-- Importazione del logo -->
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    
+    <!-- Importazione dei CSS personalizzati -->
+    <link rel="stylesheet" href="../Css/style.css">
+    <link rel="stylesheet" href="../Css/card.css">
+    <link rel="stylesheet" href="../Css/comic-effects.css">
+    <link rel="stylesheet" href="../Css/footer.css">
+</head>
+
+<body>
+    <div id="menu"></div>
+    <div class="marvel-hero-image"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-4">
+                    <h1 class="comic-text glow">CREA SCAMBIO</h1>
+                </div>
+                
+                <div class="speech-bubble text-center mb-4">
+                    <p>Crea uno scambio per barattare le tue carte duplicate!</p>
+                    <p>Puoi scambiare solo carte che hai almeno due volte e richiedere carte che non possiedi.</p>
+                    <div class="text-center mt-3">
+                        <a href="/sell_cards" class="btn btn-success btn-comic hidden" id="card_sell">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Vendi Carte</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div id="lock" class="text-center hidden">
+                    <p class="text-danger" id="error_Message"></p>
+                    <i class="fas fa-lock fa-2x"></i>
+                </div>
+                
+                <div id="pack_cards" class="pack_cards"></div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center hidden" id="recieveCard">
+            <div class="col-md-8 col-lg-6">
+                <div class="speech-bubble">
+                    <div class="text-center mb-3">
+                        <h3 class="comic-text">Seleziona Obiettivo</h3>
+                        <p>Scegli la carta che vuoi ottenere</p>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" 
+                               class="form-control" 
+                               id="select_superhero" 
+                               placeholder="Supereroe richiesto"
+                               autocomplete="off"
+                               required="required">
+                        <label for="select_superhero">Supereroe Richiesto</label>
+                        <div class="dropdown-menu w-100" id="resultsDropdown">
+                            <ul class="search-results" id="searchResults">
+                                <!-- I risultati verranno popolati qui -->
+                            </ul>
+                            <div class="text-center p-2 d-none" id="loadingIndicator">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Caricamento...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected_Superhero">
+                    
+                    <div class="text-center">
+                        <button class="btn btn-success btn-comic" onclick="createExchange()">
+                            <i class="fas fa-plus"></i>
+                            <span>Crea Scambio</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function toggleLock() {
+            const lockDiv = document.getElementById('lock');
+            const credits = await get_credits();
+            
+            if (!localStorage.getItem("album_ID") || credits < 1) {
+                lockDiv.classList.add('active');
+                if (!localStorage.getItem("album_ID")) {
+                    document.getElementById("error_Message").textContent = "Seleziona prima un album";
+                } else {
+                    document.getElementById("error_Message").textContent = "Crediti insufficienti";
+                }
+                lockDiv.classList.remove('hidden');
+            } else {
+                lockDiv.classList.remove('active');
+                lockDiv.classList.add('hidden');
+            }
+        }
+    </script>
+    
+    <!-- Importazione degli script JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../scripts/marvel.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/login.js"></script>
+    <script src="../scripts/register.js"></script>
+    
+    <script>
+        printCredits();
+        toggleLock();
+        var albumid = localStorage.getItem("album_ID");
+        printDuplicatedAlbumCards(albumid);
+    </script>
+    
+    <!-- Footer piccolo in stile Marvel -->
+    <div class="simple-marvel-footer">
+        <p class="simple-footer-text">@Donici Iustin Daniel</p>
+    </div>
+</body>
+</html>
+
